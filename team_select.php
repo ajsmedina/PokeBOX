@@ -29,29 +29,33 @@ $sql = "SELECT id,name,species
 
 
  <?php 
- for($i=0;$i<6;$i++){
-$result = $conn->query($sql);
-echo "<select>";
-	echo "<option value=\"EMPTY\"> [EMPTY] </option>"; 
-	while($row = $result->fetch_assoc()) {
-		
-        echo"<option value=\"";
-		echo $row["id"];
-		echo "\">" ;
-		echo $row["name"];
-		echo " (".$row["species"].")";
-		echo "</option>";
-	}
-echo "</select>";
- }
+
+if($sql!=false){
+	for($i=0;$i<6;$i++){
+	$result = $conn->query($sql);
+	echo "<select>";
+		echo "<option value=\"EMPTY\"> [EMPTY] </option>"; 
+		while($row = $result->fetch_assoc()) {
+			
+			echo"<option value=\"";
+			echo $row["id"];
+			echo "\">" ;
+			echo $row["name"];
+			echo " (".$row["species"].")";
+			echo "</option>";
+		}
+	echo "</select>";
+	 }
+}
 ?>
 
 </form>
 
 
 <form action="main_menu.php" method="post">
+
 <?php
-	echo "Trainer ID: <input type=\"text\" name=\"tid\" readonly value=\"";
+		echo "<input type=\"text\" style=\"visibility: hidden\" name=\"tid\" readonly value=\"";
 	echo $_POST["tid"];
 	echo "\"> <br />"
 ?>
