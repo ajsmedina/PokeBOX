@@ -7,7 +7,8 @@
 	$tid = -1;
 	//nametid runs if this is our first time entering the main menu (aka post-login)
 	//otherwise, we just need the regular id to be passed on
-	if($_POST["tname"]!=NULL){
+	
+	if(is_null($_POST["tid"])){
 		//server info
 		$servername = "localhost";
 		$username = "ajsmedina";
@@ -33,7 +34,7 @@
 		
 		if($row==0){
 			//If this runs, then the user did not input a valid trainer id.
-			echo "That trainer name ".$_POST["tname"]." is invalid! Either try again, or register your trainer name. <br />;
+			echo "The trainer name ".$_POST["tname"]." is invalid! Either try again, or register your trainer name. <br />";
 		} else {
 			$tid = $row["id"];
 		}
@@ -54,6 +55,7 @@
 <?
 	}
 ?>
+<br /> <br />
 <input type='submit' value='Logout' onclick='this.form.action="login.php";' />
 
 </form>

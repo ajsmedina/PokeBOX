@@ -59,7 +59,7 @@ if($sql!=false){
 	echo $_POST["tid"];
 	echo "\"> <br />"
 ?>
-<input type='submit' value='Main Menu' />
+<input type='submit' value='Back' />
 </form>
 <?php
 $conn->close();

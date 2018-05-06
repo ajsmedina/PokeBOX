@@ -28,8 +28,10 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc(); //fetches an assoc list
 
 //echo count($row);
-
-if($row==0){
+if(is_null($name) || $name==""){
+	echo "Please enter a trainer name.";
+}
+elseif($row==0){
 	//Set up statements for insert
 	$stmt = $conn->prepare("INSERT INTO TRAINER_DATA (name) VALUES (?)");
 	$stmt->bind_param("s", $name);
