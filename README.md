@@ -1,6 +1,6 @@
 # PokeBOX: Pokemon Team Analyzer
 
-PokeBOX is a probject that allows users to log in, add Pokemon to their virtual box, and select teams of their own Pokemon to be
+PokeBOX is a project that allows users to log in, add Pokemon to their virtual box, and select teams of their own Pokemon to be
 analyzed for type matchups, allowing them to edit their team to perform with peak coverage.
 
 # What's In the Box?
