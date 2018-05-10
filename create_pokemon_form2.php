@@ -3,7 +3,8 @@
 
 <form action="create_pokemon.php" method="post">
 
-<?php //server info
+<?php 
+	//Server Info
 	$servername = "localhost";
 	$username = "ajsmedina";
 	$password = "";
@@ -16,13 +17,18 @@
 		die("Connection failed: " . $conn->connect_error);
 	} 
 
+	//These readonly fields just remind the user what Pokemon they are working with.
 	echo "Nickname: <input type=\"text\"  name=\"name\" readonly value=\"".$_POST["name"]."\"> <br />";
 	echo "Species: <input type=\"text\"  name=\"species\" readonly value=\"".$_POST["species"]."\"> <br />";
 	
+	//Gets data from the Pokemon species provided.
+	//This is why we have two pages.
 	$sql = "SELECT * FROM POKEMON_DEFAULT_DATA WHERE species=\"".$_POST["species"]."\"";
+	
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	
+	//If the user inputted an incorrect species, then provide an error code and don't run the rest of the code.
 	if($row==0){
 		echo "The Pokemon \"".$_POST["species"]."\" does not exist. Please input a correct Pokemon.<br />";
 	} else {
@@ -33,9 +39,19 @@ Ability:
 	<?php
 		$abilities = array($row["ability1"],$row["ability2"],$row["ability3"]);
 		
+		//Maximum of 3 abilities per Pokemon
+		//Fact-check this since I think some have 4?
 		for($i=0;$i<3; $i++) {
+			//Don't display "NULL" since not every Poemon has 3 abilities.
 			if(!is_null($abilities[$i])){
-			echo "<option value=\"".$abilities[$i]."\">".$abilities[$i]."</option>";
+				echo "<option value=\"".$abilities[$i]."\" ";
+				
+				if($_POST["ability"]==$abilities[$i]){
+					echo " selected ";
+				}
+				
+				echo">".$abilities[$i];
+				echo "</option>";
 			}
 		}
 	 
@@ -48,24 +64,35 @@ Nature:
 	<?php
 		$sql = "SELECT * FROM NATURES_DATA";
 		$result = $conn->query($sql);
+		
+		//Create option for each nature
 		while($nrow = $result->fetch_assoc()) {
 			$nature = $nrow["name"];
-			echo "<option value=\"".$nature."\">".$nature;
-			echo "( +".$nrow["statup"].", -".$nrow["statdown"].") </option>";
+			echo "<option value=\"".$nature."\"";
+			if($_POST["nature"]==$nature){
+				echo " selected ";
+			}
+			echo "> ".$nature;
+			
+			//Display the stat changes the nature gives.
+			echo "( +".$nrow["statup"].", -".$nrow["statdown"].")";
+			
+			echo" </option>";
 		}
 	 
   ?>
 </select>
 <br>
 
-Stats: <br />
-HP: <input type="number" name="hp" min="0" max="255" value="0"> <br />
-ATK: <input type="number" name="atk" min="0" max="255" value="0"> <br />
-DEF: <input type="number" name="def" min="0" max="255" value="0"> <br />
-SPATK: <input type="number" name="spatk" min="0" max="255" value="0"> <br />
-SPDEF: <input type="number" name="spdef" min="0" max="255" value="0"> <br />
-SPD: <input type="number" name="spd" min="0" max="255" value="0"> <br />
-
+EVs: <br />
+<?php
+	$stats = array("hp","atk","def","spatk","spdef","spd");
+	//Display each stat. Stats can range from 0-255
+	for($i = 0; $i< sizeof($stats);$i++){
+		echo strtoupper($stats[$i]).": <input type=\"number\" name=\"".$stats[$i]."\" min=\"0\" max=\"255\" value=\"".$_POST[$stats[$i]]."\" <br />";
+	}
+?>
+<br />
 Moves: <br />
 <input type="text" name="move1" /><br />
 <input type="text" name="move2" /><br />

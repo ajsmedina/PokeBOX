@@ -5,11 +5,11 @@
 
 <?php
 	$tid = -1;
-	//nametid runs if this is our first time entering the main menu (aka post-login)
-	//otherwise, we just need the regular id to be passed on
 	
+	//If tid is null, that means user is coming from the login screen
+	//Need to validate the user id.
 	if(is_null($_POST["tid"])){
-		//server info
+		//Server Info
 		$servername = "localhost";
 		$username = "ajsmedina";
 		$password = "";
@@ -22,9 +22,7 @@
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-
-
-
+		//Get the trainer id of the trainer with the given name.
 		$sql = "SELECT id
 				FROM TRAINER_DATA
 				WHERE name = \"".$_POST["tname"]."\"";
@@ -32,8 +30,8 @@
 		$result = $conn->query($sql);
 		$row = $result->fetch_assoc();
 		
+		//If row==0, then the user did not input a valid trainer id.
 		if($row==0){
-			//If this runs, then the user did not input a valid trainer id.
 			echo "The trainer name ".$_POST["tname"]." is invalid! Either try again, or register your trainer name. <br />";
 		} else {
 			$tid = $row["id"];
@@ -42,6 +40,7 @@
 		$tid = $_POST["tid"];
 	}
 	
+	//Only provide the navigation menu if the user was actually logged in.
 	if($row!=0 || $tid!=-1){
 
 		echo "<input type=\"text\" style=\"visibility: hidden\" name=\"tid\" readonly value=\"";

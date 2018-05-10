@@ -4,7 +4,7 @@
 
 <?php
 
-//server info
+//Server Info
 $servername = "localhost";
 $username = "ajsmedina";
 $password = "";
@@ -19,7 +19,7 @@ if ($conn->connect_error) {
 
 
 
-//if adding to an existing table, comment this out.
+//Create Natures Table
 $conn->query("CREATE TABLE NATURES_DATA (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 name VARCHAR(30) NOT NULL,
@@ -36,20 +36,26 @@ $sdown="";
 $stmt = $conn->prepare("INSERT INTO NATURES_DATA (name, statup, statdown) VALUES (?, ?, ?)");
 $stmt->bind_param("sss", $name, $sup, $sdown);
 
-for($id=1; $id<=25;$id++){
 
+//There are 25 natures in the game.
+for($id=1; $id<=25;$id++){
+	
+	//Extract info from PokeAPI.
 	$data = file_get_contents('http://pokeapi.co/api/v2/nature/'.$id);
 	
+	//Read the JSON data.
 	$nature = json_decode($data);
 
+	//Load values into variables
 	$name = $nature->name;
 	$sup = $nature->increased_stat->name;
 	$sdown = $nature->decreased_stat->name;
 	
+	//Execute prepared statement and insert nature into table.
 	$stmt->execute();
 }
 
-echo "done!";
+echo "Done!";
 
 $stmt->close();
 $conn->close();

@@ -1,9 +1,9 @@
-<html>
+	<html>
 <body>
 
 <?php
 
-//server info
+//Server Info
 $servername = "localhost";
 $username = "ajsmedina";
 $password = "";
@@ -16,34 +16,33 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-//Initialize stat arrays 
 $name = $_POST["name"];
 
-
+//Check if the inputted name already exists.
 $sql = "SELECT *
 		FROM TRAINER_DATA
 		WHERE name = \"".$name."\"";
 
 $result = $conn->query($sql);
-$row = $result->fetch_assoc(); //fetches an assoc list
+$row = $result->fetch_assoc();
 
-//echo count($row);
+//If no name was entered, then don't do anything.
 if(is_null($name) || $name==""){
 	echo "Please enter a trainer name.";
 }
+//If name was not found, then it is a valid name. Add it to the list of trainers.
 elseif($row==0){
-	//Set up statements for insert
 	$stmt = $conn->prepare("INSERT INTO TRAINER_DATA (name) VALUES (?)");
 	$stmt->bind_param("s", $name);
 
 	$stmt->execute();
 
-	echo "Welcome, ";
-	echo $name;
-	echo "!";
+	echo "Welcome, ".$name."!";
 
 	$stmt->close();
-} else {
+} 
+//If the name was found, then it is not a valid name.
+else {
 	echo "The trainer ".$name." already exists! Try a new name.";
 }
 $conn->close();
