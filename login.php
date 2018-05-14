@@ -1,25 +1,37 @@
 <html>
-<body>
 
-<form action="main_menu.php" method="post">
+	<head>
+		<title> PokeBOX</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
 
+	<body>
 
-<p>Log In</p>
-Trainer Name: <input type="text" name="tname"><br>
+		<div id="content">
+	<h1> Welcome to PokeBOX! </h1>
+		
+			<div class="left">
+				<h2>Log In</h2>
+				<form action="main_menu.php" method="post">
+				Trainer Name: <input type="text" name="tname"><br>
 
-<input type="submit">
+				<input type="submit">
 
-</form>
-<br>
-<br>
+				</form>
+			</div>
 
-<p>New Trainer</p>
-<form action="create_trainer.php" method="post">
+			<div class="right">
+				<h2>New Trainer</h2>
+				<form action="create_trainer.php" method="post">
 
-Trainer Name: <input type="text" name="name"><br>
+				Trainer Name: <input type="text" name="name"><br>
 
-<input type="submit">
-</form>
+				<input type="submit">
+				</form>
+			</div>
+			
+			
+		</div>
 
-</body>
+	</body>
 </html>

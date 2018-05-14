@@ -1,58 +1,74 @@
 	<html>
+	
+	<head>
+		<title> PokeBOX</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
 <body>
 
-<?php
+<div id="content">
+	<h1> New Trainer </h1>
 
-//Server Info
-$servername = "localhost";
-$username = "ajsmedina";
-$password = "";
-$database_name = "my_ajsmedina";
+	<div class="left">
+		<?php
 
-$conn = new mysqli($servername, $username, $password, $database_name);
+		//Server Info
+		$servername = "localhost";
+		$username = "ajsmedina";
+		$password = "";
+		$database_name = "my_ajsmedina";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+		$conn = new mysqli($servername, $username, $password, $database_name);
 
-$name = $_POST["name"];
+		// Check connection
+		if ($conn->connect_error) {
+			die("Connection failed: " . $conn->connect_error);
+		} 
 
-//Check if the inputted name already exists.
-$sql = "SELECT *
-		FROM TRAINER_DATA
-		WHERE name = \"".$name."\"";
+		$name = $_POST["name"];
 
-$result = $conn->query($sql);
-$row = $result->fetch_assoc();
+		//Check if the inputted name already exists.
+		$sql = "SELECT *
+				FROM TRAINER_DATA
+				WHERE name = \"".$name."\"";
 
-//If no name was entered, then don't do anything.
-if(is_null($name) || $name==""){
-	echo "Please enter a trainer name.";
-}
-//If name was not found, then it is a valid name. Add it to the list of trainers.
-elseif($row==0){
-	$stmt = $conn->prepare("INSERT INTO TRAINER_DATA (name) VALUES (?)");
-	$stmt->bind_param("s", $name);
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
 
-	$stmt->execute();
+		//If no name was entered, then don't do anything.
+		if(is_null($name) || $name==""){
+			echo "Please enter a trainer name.";
+		}
+		//If name was not found, then it is a valid name. Add it to the list of trainers.
+		elseif($row==0){
+			$stmt = $conn->prepare("INSERT INTO TRAINER_DATA (name) VALUES (?)");
+			$stmt->bind_param("s", $name);
 
-	echo "Welcome, ".$name."!";
+			$stmt->execute();
 
-	$stmt->close();
-} 
-//If the name was found, then it is not a valid name.
-else {
-	echo "The trainer ".$name." already exists! Try a new name.";
-}
-$conn->close();
+			echo "Welcome, ".$name."!";
 
-?>
+			$stmt->close();
+		} 
+		//If the name was found, then it is not a valid name.
+		else {
+			echo "The trainer ".$name." already exists! Try a new name.";
+		}
+		$conn->close();
 
-<form action="login.php" method="post">
-<input type='submit' value='Login' />
-</form>
+		?>
+	</div>
+	
+	<div class="right">
+	</div>
+	
+	<div class="middle">
+		<form action="login.php" method="post">
+		<input type='submit' value='Login' />
+		</form>
+	</div>
+	
 
-
+</div>
 </body>
 </html>
